@@ -125,7 +125,7 @@ Prompt build tahap 3 tidak berubah; sudah dikirim ke Rany 20.40-an.
 - Tab Agen Mandor/Driver tetap dihapus (koreksi 14:30 berlaku).
 
 ## 2026-11-04 14:50 — Dokumen rancang dibuat (BRD+FSD+TSD, 1 doc)
-- https://claude.ai/artifact/U5hnH3fmzq1nQ83K9KMmqd — draf, menunggu persetujuan Rany. Berisi diagram alur (3 jalur) + arsitektur, matriks peran-menu, status, daftar selisih build 4.
+- (tautan draf internal dihapus dari repo publik) Draf, menunggu persetujuan Rany. Berisi diagram alur (3 jalur) + arsitektur, matriks peran-menu, status, daftar selisih build 4.
 - Keputusan terbuka (bagian 4.1): input atas nama Mandor; menu/hak Admin; hapus langkah "agen susun pesan untuk Mandor"; aturan zona & lembur Driver.
 - Build 4 dan AGENTS v9 HANYA disusun dari dokumen ini setelah disetujui.
 
@@ -246,3 +246,26 @@ Prompt build tahap 3 tidak berubah; sudah dikirim ke Rany 20.40-an.
 - AUDIT LOG (tangkapan layar 06/11 00:27, bagian atas): baris Masuk, Salin perintah Report, Setujui report tercatat dengan waktu WIB, peran, aktor, objek, nilai sebelum -> sesudah; sumber semua "Aplikasi" (tidak ada aktor agen). Bukti defect: 00:08 Dewi menyetujui Rekap penggajian "jumlah SELISIH: 8" (jawaban Matriks lama), lalu 00:20 dan 00:25 "jumlah SELISIH: 9".
   TEMUAN: (a) dua baris "Setujui report" identik pada 00:03 (Hadi, Matriks klien) -> dobel klik atau pencatatan ganda; (b) Unduh Excel Report yang BERHASIL tidak tercatat (kode L3696+: hanya penolakan hak akses yang dicatat) — data penggajian keluar tanpa jejak; (c) "Baca hasil" Report tidak tercatat (tab Agen mencatat "Baca hasil dari teks"); (d) label "jumlah SELISIH: n" di catatan Audit Log sama menyesatkannya dengan Excel.
   Belum diperiksa: baris Tolak, Setuju (massal dan satuan), Perbaiki, Tambahkan kegiatan di luar rencana (sekitar 23:10-23:25).
+
+## Temuan dari uji T1 (6 Nov 2026)
+- Penanda rencana menulis "Tanda: <ID laporan>: -" (ID terulang, tanda kosong). Kosmetik.
+- Audit "Setujui report" masih menyebut "jumlah SELISIH". Kosmetik.
+- Dropdown "Petakan ke rencana" menampilkan ID rencana internal dan memuat rencana kegiatan lain.
+- Kemungkinan hitung ganda bila agen menulis baris SELISIH yang sama dengan banding aplikasi.
+- Data lama masih menyimpan sisa baris rencana ganda (Anti Hama, Pemangkasan ke-6/ke-7 "ditambahkan atas persetujuan Pengawas").
+
+## Temuan dari uji T2 (6 Nov 2026)
+- Aplikasi menolak laporan di luar rencana tanpa Zona (kontrol berfungsi; pemicu "zona kosong → Perlu konfirmasi" tidak bisa dibuat lewat aplikasi).
+- Teks paket dan banner menu Agen masih menyebut "file Excel bila ada kegiatan di luar rencana" (sisa Mode berkas). Agen memberi catatan celah. Perbaikan: hapus kalimat itu di paket dan banner Mode aplikasi.
+- Penanda "Tanda: <ID laporan>: -" (sudah dicatat dari T1) ternyata berdampak: agen membaca "Tanda kosong" lalu menandai 6 rencana SUDAH ADA LAPORAN sebagai "tidak dapat diverifikasi". Naikkan dari kosmetik ke perbaikan prioritas rendah-sedang.
+- Jawaban agen sangat panjang (proses berpikir ikut tertulis); biaya 6,15 kredit dan 1m14s. Pertimbangkan aturan jawaban ringkas.
+- Agen menulis rencana No. 4 dua kali (Perlu konfirmasi dan Belum dilaporkan) saat ada konflik; perlu dilihat efeknya di aplikasi (hitung ganda).
+- Setelah Petakan, kolom nomor menampilkan 'ke-4' (bukan 'No. rencana 4'). Kosmetik.
+
+## Temuan rekaman demo (Jumat 6 November 2026, malam)
+Paket yang sama (Paket_Demo.txt: rencana Penyiangan Zona A No. 3 bertanda BELUM DILAPORKAN, laporan Slamet Penyiangan Zona A "di luar rencana" cocok penuh) dijalankan DUA kali di WorkBuddy (chat baru, Auto, AGENTS_v9_1.md):
+- Run 1 (23.01 WIB): Tanda **Sesuai**; agen menulis rencana No. 3 "SUDAH dilaporkan" dan tidak memasukkannya ke Belum dilaporkan. Ini menyimpang dari butir 18b (penanda BELUM DILAPORKAN ada, jadi harus dikonfirmasi). Selisih label aplikasi "Di luar rencana" hanya ditulis sebagai catatan.
+- Run 2 (23.16 WIB): Tanda **Perlu konfirmasi**, sesuai butir 18b dan Bagian 12 (pertentangan penanda paket vs data laporan). Sama dengan hasil T2.
+- Kesimpulan: input sama, jawaban berbeda. Agen tidak sepenuhnya konsisten antarjalan. Manusia tetap meninjau; temuan ini dilaporkan apa adanya (dua jalan, satu menyimpang).
+- Usulan aturan: (1) Keterangan bebas hanya konteks; Tanda ditentukan dari data terstruktur dan penanda paket, keterangan tidak boleh mengubah Tanda. (2) Tegaskan: bila laporan ditandai "Di luar rencana" oleh aplikasi tetapi unsur datanya cocok dengan rencana BELUM DILAPORKAN, Tanda wajib Perlu konfirmasi.
+- Run 2: blok jawaban memuat baris "SUMBER | paket aplikasi ..." di dalam blok kode; aplikasi menandainya baris bermasalah (merah) tetapi tidak memblokir. Usul: larang baris tambahan di dalam blok jawaban.
