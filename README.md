@@ -8,6 +8,8 @@ Tencent Cloud AI CAN DO IT Hackathon Indonesia 2026 — Track B (Agen Kantor). T
 
 **Coba langsung (tanpa instalasi):** https://ranyrpw-creator.github.io/pantauusaha-ai/
 
+**Panduan penggunaan / User guide:** [`docs/panduan-penggunaan.md`](docs/panduan-penggunaan.md). Singkatnya: masuk sebagai Hadi (Pengawas), PIN `1234`, lalu Master Data → Cadangan data → **Muat data contoh**. Data awal kosong karena tersimpan di peramban masing-masing.
+
 ## Isi repo
 | Folder | Isi |
 |---|---|
@@ -16,7 +18,7 @@ Tencent Cloud AI CAN DO IT Hackathon Indonesia 2026 — Track B (Agen Kantor). T
 | `agent/` | `AGENTS_v9_1.md`: aturan agen untuk WorkBuddy (format jawaban, penanda Belum dilaporkan, larangan menulis audit log). |
 | `prompts/` | Perintah yang dipakai untuk membangun/memperbaiki aplikasi di WorkBuddy. |
 | `tests/` | Hasil uji: UAT aplikasi, uji agen T1 dan T2 (kasus, hasil, status), skenario demo. |
-| `docs/` | Ringkasan hasil uji T1 dan T2, catatan temuan dan perubahan tertunda. |
+| `docs/` | Panduan penggunaan, ringkasan hasil uji T1 dan T2, catatan temuan dan perubahan tertunda. |
 | `data-contoh/` | Profil usaha, rencana, dan laporan contoh (tiruan). |
 
 ## Cara kerja singkat
